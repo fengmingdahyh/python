@@ -1,0 +1,36 @@
+import requests
+import time
+
+
+def check_website_status(website):
+    try:
+        response = requests.get(website, timeout=10)  # 设置10秒超时
+        # 打印网站状态码
+        return f"网站 {website} 的状态码是：{response.status_code}"
+    except requests.exceptions.RequestException as e:
+        # 打印错误信息
+        return f"无法访问网站 {website}，错误：{e}"
+
+
+def main():
+    print("请输入要查询状态的网站列表，每行一个网址，输入'done'结束。")
+    websites = []
+    while True:
+        website = input("请输入网站地址：")
+        if website.lower() == 'done':
+            break
+        websites.append(website.strip())
+
+    # 批量查询网站状态
+    for website in websites:
+        result = check_website_status(website)
+        print(result)
+
+    # 完成查询后，提示用户即将开始延时
+    print("所有网站状态查询完成，即将开始10分钟的延时...")
+    time.sleep(600)  # 10分钟的延时
+    print("延时结束。")
+
+
+if __name__ == "__main__":
+    main()
